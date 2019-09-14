@@ -4,14 +4,16 @@ using AddressBook.Api.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AddressBook.Api.Migrations
 {
     [DbContext(typeof(SqlExpressContext))]
-    partial class SqlExpressContextModelSnapshot : ModelSnapshot
+    [Migration("20190914102917_dbfix")]
+    partial class dbfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,13 +36,13 @@ namespace AddressBook.Api.Migrations
 
                     b.Property<DateTime>("Updated");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("AddressBook");
                 });
@@ -75,14 +77,11 @@ namespace AddressBook.Api.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
-                    b.Property<string>("Firstname")
-                        .IsRequired();
+                    b.Property<string>("Firstname");
 
-                    b.Property<string>("Lastname")
-                        .IsRequired();
+                    b.Property<string>("Lastname");
 
                     b.Property<DateTime>("Updated");
 
@@ -95,8 +94,7 @@ namespace AddressBook.Api.Migrations
                 {
                     b.HasOne("AddressBook.Api.Models.User", "User")
                         .WithOne("AddressInfo")
-                        .HasForeignKey("AddressBook.Api.Models.AddressInfo", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AddressBook.Api.Models.AddressInfo", "UserId");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,49 @@
+<div class="modal is-active" *ngIf="user">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head has-background-primary">
+      <p class="modal-card-title has-text-white">User Card</p>
+      <button (click)="cancel()" class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form [formGroup]="userForm" class="field">
+        <div class="field">
+          <label class="label">Lastname *</label>
+          <div class="control">
+            <input class="input " formControlName="lastname" [ngClass]="{'error-input':formErrors.lastname}" type="text"
+              placeholder="type your lastname">
+            <div *ngIf="formErrors.lastname" class="help is-danger">
+              {{ formErrors.lastname }}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Firstname *</label>
+          <div class="control">
+            <input class="input " formControlName="firstname" [ngClass]="{'error-input':formErrors.firstname}"
+              type="text" placeholder="type your lastname">
+            <div *ngIf="formErrors.firstname" class="help is-danger">
+              {{ formErrors.firstname }}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Email *</label>
+          <div class="control">
+            <input class="input " formControlName="email" [ngClass]="{'error-input':formErrors.email}" type="text"
+              placeholder="type a valid email">
+            <div *ngIf="formErrors.email" class="help is-danger">
+              {{ formErrors.email }}
+            </div>
+          </div>
+        </div>
+      </form>
+      <p>* Required fields</p>
+      <hr>
+      <div class="buttons is-right">
+        <button class="button" (click)="cancel()">Cancel</button>
+        <button class="button is-success" [disabled]="!userForm.valid" (click)="onSubmit()">Save changes</button>
+      </div>
+    </section>
+  </div>
+</div>

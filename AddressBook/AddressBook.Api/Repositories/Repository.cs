@@ -1,44 +1,62 @@
 ﻿using AddressBook.Api.DataContext;
 using AddressBook.Api.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace AddressBook.Api.Repositories
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {
-        private readonly SqlExpressContext _ctx;
+        private SqlExpressContext _ctx;
 
         public Repository(SqlExpressContext ctx)
         {
             _ctx = ctx;
         }
 
-        public Task<bool> Delete(T entity)
+        public bool Delete(T entity)
         {
-            throw new NotImplementedException();
+            if (entity == null) { return false; }
+
+            _ctx.Remove(entity);
+
+            _ctx.SaveChanges();
+
+            return true;
         }
 
-        public Task<T> Get(string entityId)
+        public IQueryable<T> Find(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return _ctx.Set<T>().Where(expression).AsNoTracking();
         }
 
-        public Task<IEnumerable<T>> GetAll()
+        public IQueryable<T> FindAll()
         {
-            throw new NotImplementedException();
+            return _ctx.Set<T>().AsNoTracking();
         }
 
-        public Task<T> Insert(T entity)
+        public T Insert(T entity)
         {
-            throw new NotImplementedException();
+            entity.Updated = DateTime.UtcNow;
+
+            _ctx.Set<T>().Add(entity);
+
+            _ctx.SaveChanges();
+
+            return entity;
         }
 
-        public Task<T> Update(T entity)
+        public T Update(T entity)
         {
-            throw new NotImplementedException();
-        }
+            entity.Updated = DateTime.UtcNow;
+
+            _ctx.Set<T>().Update(entity);
+
+            _ctx.SaveChanges();
+
+            return entity;
+        }       
     }
 }

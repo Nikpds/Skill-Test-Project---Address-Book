@@ -28,9 +28,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "./node_modules/ng-snotify/styles/dark.scss",
+              "src/styles/styles.sass"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {
@@ -88,7 +90,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles/styles.sass"
             ],
             "scripts": []
           }
@@ -119,6 +121,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "AddressBook"
 }

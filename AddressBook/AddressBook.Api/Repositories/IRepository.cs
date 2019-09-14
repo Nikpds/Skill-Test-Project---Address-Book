@@ -1,19 +1,21 @@
 ﻿using AddressBook.Api.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace AddressBook.Api.Repositories
 {
     public interface IRepository<T> where T : Entity
     {
-        Task<T> Insert(T entity);
+        T Insert(T entity);
 
-        Task<T> Update(T entity);
+        T Update(T entity);
 
-        Task<T> Get(string entityId);
+        bool Delete(T entity);
 
-        Task<bool> Delete(T entity);
+        IQueryable<T> FindAll();
 
-        Task<IEnumerable<T>> GetAll();
+        IQueryable<T> Find(Expression<Func<T, bool>> expression);
+
     }
 }

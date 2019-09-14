@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using AddressBook.Api.Services;
 using AddressBook.Api.Views;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,7 @@ namespace AddressBook.Api.Controllers
     {
         private readonly ILogger _log;
         private readonly IUserService _srv;
-        // TO DO VALIDATION
+
         public UserController(IUserService srv, ILogger log)
         {
             _srv = srv;
@@ -21,11 +20,16 @@ namespace AddressBook.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] UserView user)
+        public IActionResult Insert([FromBody] UserView user)
         {
             try
             {
-                var result = await _srv.AddUser(user);
+                if (!user.IsValid())
+                {
+                    return BadRequest();
+                }
+
+                var result = _srv.AddUser(user);
 
                 return Ok(result);
             }
@@ -37,65 +41,82 @@ namespace AddressBook.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromBody] UserView user, string id)
+        public IActionResult Update([FromBody] UserView user, string id)
         {
             try
             {
-                var result = await _srv.UpdateUser(user);
+                if (!user.IsValid())
+                {
+                    return BadRequest();
+                }
+
+                var result = _srv.UpdateUser(user);
 
                 return Ok(result);
             }
             catch (Exception exc)
             {
-                _log.Error(exc, "Exception inserting attendance for Athlete with Id {@athleteId}");
+                _log.Error(exc, "Exception updating user with id: {@id}", id);
                 return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             try
             {
-                var result = await _srv.DeleteUser(id);
+                if (string.IsNullOrEmpty(id))
+                {
+                    return BadRequest();
+                }
+
+                var result = _srv.DeleteUser(id);
 
                 return Ok(result);
             }
             catch (Exception exc)
             {
-                _log.Error(exc, "Exception inserting attendance for Athlete with Id {@athleteId}");
+                _log.Error(exc, "Exception deleting user with id: {@id}", id);
                 return BadRequest();
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public IActionResult Get(string id)
         {
             try
             {
-                var result = await _srv.GetUser(id);
+                if (string.IsNullOrEmpty(id))
+                {
+                    return BadRequest();
+                }
+
+                var result = _srv.GetUser(id);
 
                 return Ok(result);
             }
             catch (Exception exc)
             {
-                _log.Error(exc, "Exception inserting attendance for Athlete with Id {@athleteId}");
+                _log.Error(exc, "Exception getting user with id: {@id}", id);
+
                 return BadRequest();
             }
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
             try
             {
-                var result = await _srv.GetUsers();
+                var result = _srv.GetUsers();
 
                 return Ok(result);
             }
             catch (Exception exc)
             {
-                _log.Error(exc, "Exception inserting attendance for Athlete with Id {@athleteId}");
+                _log.Error(exc, "Exception getting users");
+
                 return BadRequest();
             }
         }

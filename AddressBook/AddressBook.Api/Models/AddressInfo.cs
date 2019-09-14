@@ -7,5 +7,9 @@
         public string Town { get; set; }
 
         public string Region { get; set; }
+
+        public string UserId { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

@@ -9,19 +9,19 @@ namespace AddressBook.Api.Services
 
     public interface IAddressInfoService
     {
-        Task<AddressInfoView> AddAddressBook(AddressInfoView address);
+        AddressInfoView AddAddressBook(AddressInfoView address);
 
-        Task<bool> DeleteAddressBook(string id);
+        bool DeleteAddressBook(string id);
     }
 
     public class AddressInfoService : IAddressInfoService
     {
-        public async Task<AddressInfoView> AddAddressBook(AddressInfoView address)
+        public AddressInfoView AddAddressBook(AddressInfoView address)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteAddressBook(string id)
+        public bool DeleteAddressBook(string id)
         {
             throw new NotImplementedException();
         }

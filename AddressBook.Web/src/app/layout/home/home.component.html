@@ -1,0 +1,18 @@
+<section class="hero is-medium ">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-4">
+          <p class="is-size-4 has-text-primary">Contacts
+            <span class="is-primary button is-small is-right" (click)="umodal.open()">Add</span>
+          </p>
+          <hr>
+        </div>
+        <div class="column is-8">
+          <app-map></app-map>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-user-modal #umodal></app-user-modal>

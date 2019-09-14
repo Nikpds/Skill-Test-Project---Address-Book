@@ -1,18 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { LayoutModule } from './layout/layout.module';
+import { RouterModule } from '@angular/router';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
     AppComponent
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    RouterModule.forRoot([]),
+    LayoutModule,
+    SnotifyModule
   ],
-  providers: [],
+  providers: [
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+    SnotifyService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

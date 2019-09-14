@@ -1,0 +1,18 @@
+import { Component, OnInit } from '@angular/core';
+
+declare let L;
+
+@Component({
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.sass']
+})
+export class MapComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+
+  }
+
+}

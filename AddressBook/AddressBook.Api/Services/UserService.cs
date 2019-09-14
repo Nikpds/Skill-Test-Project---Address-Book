@@ -1,4 +1,5 @@
 ﻿using AddressBook.Api.DataContext;
+using AddressBook.Api.Models;
 using AddressBook.Api.Repositories;
 using AddressBook.Api.Views;
 using System;
@@ -11,47 +12,57 @@ namespace AddressBook.Api.Services
 
     public interface IUserService
     {
-        Task<UserView> AddUser(UserView user);
+        UserView AddUser(UserView user);
 
-        Task<UserView> UpdateUser(UserView user);
+        UserView UpdateUser(UserView user);
 
-        Task<bool> DeleteUser(string userId);
+        bool DeleteUser(string userId);
 
-        Task<IEnumerable<UserView>> GetUsers();
+        IEnumerable<UserView> GetUsers();
 
-        Task<UserView> GetUser(string id);
+        UserView GetUser(string id);
     }
 
     public class UserService : IUserService
     {
-        private readonly ISqlExpressContext _ctx;
+        private readonly IRepository<User> _repo;
 
-        public UserService(ISqlExpressContext ctx)
+        public UserService(IRepository<User> repo)
         {
-            _ctx = ctx;
+            _repo = repo;
         }
 
-        public async Task<UserView> AddUser(UserView user)
+        public UserView AddUser(UserView user)
+        {
+            User domainUser = DomainToViewMaps.UserViewToUser(user);
+
+            domainUser = _repo.Insert(domainUser);
+
+            user = DomainToViewMaps.UserToView(domainUser);
+
+            return user;
+        }
+
+        public bool DeleteUser(string userId)
+        {
+            var entity = _repo.Find(x => x.Id == userId).SingleOrDefault();
+
+            bool isDeleted = _repo.Delete(entity);
+
+            return isDeleted;
+        }
+
+        public UserView GetUser(string id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteUser(string userId)
+        public IEnumerable<UserView> GetUsers()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<UserView> GetUser(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<UserView>> GetUsers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<UserView> UpdateUser(UserView user)
+        public UserView UpdateUser(UserView user)
         {
             throw new NotImplementedException();
         }
