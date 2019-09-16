@@ -1,9 +1,27 @@
-<aol-map [loadTilesWhileInteracting]="true" >
-    <aol-interaction-default></aol-interaction-default>
-  <aol-view [zoom]="4">
-    <aol-coordinate [x]="5.795122" [y]="45.210225" [srid]="'EPSG:4326'"></aol-coordinate>
+<aol-map [loadTilesWhileInteracting]="true" [height]="400">
+  <aol-interaction-default></aol-interaction-default>
+
+  <aol-view [zoom]="2">
+    <aol-coordinate [x]="25.795122" [y]="38.210225" [srid]="'EPSG:4326'"></aol-coordinate>
   </aol-view>
   <aol-layer-tile>
     <aol-source-osm></aol-source-osm>
   </aol-layer-tile>
+  <aol-layer-vector>
+    <aol-source-vector>
+      <aol-feature *ngFor="let f of features; let i = index" (click)="setPopupContent(f)" [id]="i">
+        <aol-geometry-point>
+          <aol-coordinate [x]="f.lat" [y]="f.lon" [srid]="'EPSG:4326'"></aol-coordinate>
+        </aol-geometry-point>
+        <aol-style>
+          <aol-style-icon [src]="'../../../assets/marker-icon.png'"></aol-style-icon>
+          <aol-style-text [text]="f.address" [offsetY]="-25"></aol-style-text>          
+        </aol-style>
+      
+
+      </aol-feature>
+
+    </aol-source-vector>
+  </aol-layer-vector>
+
 </aol-map>

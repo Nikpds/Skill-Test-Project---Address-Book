@@ -1,4 +1,6 @@
-﻿namespace AddressBook.Api.Models
+﻿using System.Collections.Generic;
+
+namespace AddressBook.Api.Models
 {
     public class User : Entity
     {
@@ -8,6 +10,11 @@
 
         public string Email { get; set; }
 
-        public virtual AddressInfo AddressInfo { get; set; }
+        public virtual IEnumerable<AddressInfo> Addresses { get; set; }
+
+        public User()
+        {
+            Addresses = new HashSet<AddressInfo>();
+        }
     }
 }

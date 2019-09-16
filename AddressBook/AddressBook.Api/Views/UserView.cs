@@ -1,4 +1,6 @@
-﻿namespace AddressBook.Api.Views
+﻿using System.Collections.Generic;
+
+namespace AddressBook.Api.Views
 {
     public class UserView
     {
@@ -10,6 +12,11 @@
 
         public string Email { get; set; }
 
-        public AddressInfoView AddressInfo { get; set; }
+        public IEnumerable<AddressInfoView> Addresses { get; set; }
+
+        public UserView()
+        {
+            Addresses = new HashSet<AddressInfoView>();
+        }
     }
 }

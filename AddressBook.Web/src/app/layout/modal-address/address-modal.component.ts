@@ -1,42 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User, Address } from 'src/app/model';
+import { Address } from 'src/app/model';
 import { BaseService } from '../base.service';
 import { NotifyService } from 'src/app/shared/notify.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
-  selector: 'app-user-modal',
-  templateUrl: './user-modal.component.html',
-  styleUrls: ['./user-modal.component.sass']
+  selector: 'app-address-modal',
+  templateUrl: './address-modal.component.html',
+  styleUrls: ['./address-modal.component.sass']
 })
-export class UserModalComponent implements OnInit {
-  user: User;
+export class ModalAddressComponent implements OnInit {
   address: Address;
-  userForm: FormGroup;
-  emailRegEx = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+  addressForm: FormGroup;
   latlongRegEx = /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/;
   formErrors = {
-    firstname: '',
-    lastname: '',
-    email: '',
     address: '',
     longtitue: '',
     latitude: ''
   };
 
   validationMessages = {
-    firstname: {
-      required: 'Firstname is required',
-      minlength: 'Your Firstname must be at least 3 characters'
-    },
-    lastname: {
-      required: 'Lastname is required',
-      minlength: 'Your Lastname must be at least 3 characters'
-    },
-    email: {
-      required: 'Email is required',
-      pattern: 'Email is not valid'
-    },
     address: {
       required: 'Address is required'
     },
@@ -49,7 +33,6 @@ export class UserModalComponent implements OnInit {
       pattern: 'Longtitue is not valid'
     }
   };
-
   constructor(
     private service: BaseService,
     private notify: NotifyService,
@@ -58,24 +41,20 @@ export class UserModalComponent implements OnInit {
 
   ngOnInit() {
   }
-
   private createForm() {
-    this.userForm = this.fb.group({
-      firstname: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
-      lastname: [null, Validators.compose([Validators.required, Validators.minLength(3)])],
-      email: [null, Validators.compose([Validators.required, Validators.pattern(this.emailRegEx)])],
+    this.addressForm = this.fb.group({
       address: [null, Validators.required],
       latitude: [null, Validators.compose([Validators.required, Validators.pattern(this.latlongRegEx)])],
       longtitue: [null, Validators.compose([Validators.required, Validators.pattern(this.latlongRegEx)])]
 
     });
-    this.userForm.valueChanges.subscribe(value => this.onValueChanged(value));
+    this.addressForm.valueChanges.subscribe(value => this.onValueChanged(value));
     this.onValueChanged();
   }
 
   onValueChanged(value?: any) {
-    if (!this.userForm) { return; }
-    const form = this.userForm;
+    if (!this.addressForm) { return; }
+    const form = this.addressForm;
     for (const field in this.formErrors) {
       if (field) {
         this.formErrors[field] = '';
@@ -96,28 +75,19 @@ export class UserModalComponent implements OnInit {
   }
 
   onSubmit() {
-    const model = this.userForm.value;
-    this.user.firstname = model.firstname;
-    this.user.lastname = model.lastname;
-    this.user.email = model.email;
-
-    const addr = new Address();
-
-    addr.address = model.address;
-    addr.lat = model.latitude;
-    addr.lon = model.longtitue;
-    this.user.addresses = [];
-    this.user.addresses.push(addr);
+    const model = this.addressForm.value;
+    this.address.address = model.address;
+    this.address.lat = model.latitude;
+    this.address.lon = model.longtitue;
 
     this.insert();
   }
 
   private insert() {
-    this.service.insert<User>(this.user, 'user').subscribe(res => {
-      const contacts = this.service.contacts;
-      contacts.unshift(res);
-      this.service.contacts = contacts;
+    this.service.insert<Address>(this.address, 'addressinfo').subscribe(res => {
+      this.address = res;
       this.notify.success('Your insert was successfull');
+      this.service.addAddressToUser(res);
       this.cancel();
     }, error => {
       this.notify.danger(error);
@@ -125,11 +95,12 @@ export class UserModalComponent implements OnInit {
   }
 
   cancel() {
-    this.user = null;
+    this.address = null;
   }
 
-  open() {
-    this.user = new User();
+  open(userId: string) {
+    this.address = new Address();
+    this.address.userId = userId;
     this.createForm();
   }
 

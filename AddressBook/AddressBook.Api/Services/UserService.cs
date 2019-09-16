@@ -1,11 +1,9 @@
-﻿using AddressBook.Api.DataContext;
-using AddressBook.Api.Models;
+﻿using AddressBook.Api.Models;
 using AddressBook.Api.Repositories;
 using AddressBook.Api.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AddressBook.Api.Services
 {
@@ -19,8 +17,6 @@ namespace AddressBook.Api.Services
         bool DeleteUser(string userId);
 
         IEnumerable<UserView> GetUsers();
-
-        UserView GetUser(string id);
     }
 
     public class UserService : IUserService
@@ -34,7 +30,7 @@ namespace AddressBook.Api.Services
 
         public UserView AddUser(UserView user)
         {
-            User domainUser = DomainToViewMaps.UserViewToUser(user);
+            User domainUser = DomainToViewMaps.UserViewToDomain(user);
 
             domainUser = _repo.Insert(domainUser);
 
@@ -50,16 +46,16 @@ namespace AddressBook.Api.Services
             bool isDeleted = _repo.Delete(entity);
 
             return isDeleted;
-        }
-
-        public UserView GetUser(string id)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         public IEnumerable<UserView> GetUsers()
         {
-            throw new NotImplementedException();
+            var users = _repo.FindAll(i => i.Addresses).ToList();
+
+            var usersView = from user in users
+                            select DomainToViewMaps.UserToView(user);
+
+            return usersView;
         }
 
         public UserView UpdateUser(UserView user)

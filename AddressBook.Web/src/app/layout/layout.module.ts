@@ -9,6 +9,7 @@ import { DocumentationComponent } from './documentation/documentation.component'
 import { MapComponent } from './map/map.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserModalComponent } from './user-modal/user-modal.component';
+import { ModalAddressComponent } from './modal-address/address-modal.component';
 
 const routes: Route[] = [
   { path: 'home', component: HomeComponent },
@@ -22,7 +23,8 @@ const routes: Route[] = [
     HomeComponent,
     DocumentationComponent,
     MapComponent,
-    UserModalComponent
+    UserModalComponent,
+    ModalAddressComponent
   ],
   imports: [
     SharedModule,

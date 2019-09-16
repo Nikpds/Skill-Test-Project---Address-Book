@@ -4,14 +4,16 @@ using AddressBook.Api.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AddressBook.Api.Migrations
 {
     [DbContext(typeof(SqlExpressContext))]
-    partial class SqlExpressContextModelSnapshot : ModelSnapshot
+    [Migration("20190914210352_AddressModelLatLon")]
+    partial class AddressModelLatLon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,12 +34,17 @@ namespace AddressBook.Api.Migrations
 
                     b.Property<double>("Lon");
 
+                    b.Property<string>("Town");
+
+                    b.Property<DateTime>("Updated");
+
                     b.Property<string>("UserId")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("AddressBook");
                 });
@@ -81,6 +88,8 @@ namespace AddressBook.Api.Migrations
                     b.Property<string>("Lastname")
                         .IsRequired();
 
+                    b.Property<DateTime>("Updated");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -89,8 +98,8 @@ namespace AddressBook.Api.Migrations
             modelBuilder.Entity("AddressBook.Api.Models.AddressInfo", b =>
                 {
                     b.HasOne("AddressBook.Api.Models.User", "User")
-                        .WithMany("Addresses")
-                        .HasForeignKey("UserId")
+                        .WithOne("AddressInfo")
+                        .HasForeignKey("AddressBook.Api.Models.AddressInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

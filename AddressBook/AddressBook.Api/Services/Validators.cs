@@ -12,11 +12,30 @@ namespace AddressBook.Api.Services
                 !string.IsNullOrEmpty(u.Firstname);
         }
 
-        public static bool IsValid(this AddressInfoView b)
+        public static bool IsValid(this AddressInfoView addr)
         {
-            return !string.IsNullOrEmpty(b.Address) &&
-                !string.IsNullOrEmpty(b.Region) &&
-                !string.IsNullOrEmpty(b.Town);
+            return !string.IsNullOrEmpty(addr.Address) &&
+                CheckLatitue(addr.Lat) && CheckLongtitude(addr.Lon);
+        }
+
+        private static bool CheckLatitue(double value)
+        {
+            if (value < -90 || value > 90)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private static bool CheckLongtitude(double value)
+        {
+            if (value < -90 || value > 90)
+            {
+                return false;
+            }
+            return true;
         }
     }
+
+
 }

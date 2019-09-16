@@ -36,7 +36,8 @@ namespace AddressBook.Api.Controllers
             catch (Exception exc)
             {
                 _log.Error(exc, "Exception while inserting a user");
-                return BadRequest();
+
+                return BadRequest("Error while inserting the user");
             }
         }
 
@@ -57,7 +58,8 @@ namespace AddressBook.Api.Controllers
             catch (Exception exc)
             {
                 _log.Error(exc, "Exception updating user with id: {@id}", id);
-                return BadRequest();
+
+                return BadRequest("Error while updating the selected user");
             }
         }
 
@@ -78,32 +80,11 @@ namespace AddressBook.Api.Controllers
             catch (Exception exc)
             {
                 _log.Error(exc, "Exception deleting user with id: {@id}", id);
-                return BadRequest();
+
+                return BadRequest("Error while deleting the selected user");
             }
         }
-
-        [HttpGet("{id}")]
-        public IActionResult Get(string id)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(id))
-                {
-                    return BadRequest();
-                }
-
-                var result = _srv.GetUser(id);
-
-                return Ok(result);
-            }
-            catch (Exception exc)
-            {
-                _log.Error(exc, "Exception getting user with id: {@id}", id);
-
-                return BadRequest();
-            }
-        }
-
+               
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -117,7 +98,7 @@ namespace AddressBook.Api.Controllers
             {
                 _log.Error(exc, "Exception getting users");
 
-                return BadRequest();
+                return BadRequest("Error while fecthing users");
             }
         }
     }

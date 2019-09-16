@@ -4,9 +4,9 @@
     {
         public string Address { get; set; }
 
-        public string Town { get; set; }
+        public double Lat { get; set; }
 
-        public string Region { get; set; }
+        public double Lon { get; set; }
 
         public string UserId { get; set; }
 

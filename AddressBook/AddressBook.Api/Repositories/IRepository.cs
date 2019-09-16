@@ -13,7 +13,7 @@ namespace AddressBook.Api.Repositories
 
         bool Delete(T entity);
 
-        IQueryable<T> FindAll();
+        IQueryable<T> FindAll(params Expression<Func<T, object>>[] includes);
 
         IQueryable<T> Find(Expression<Func<T, bool>> expression);
 

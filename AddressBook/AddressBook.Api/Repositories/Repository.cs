@@ -32,15 +32,26 @@ namespace AddressBook.Api.Repositories
             return _ctx.Set<T>().Where(expression).AsNoTracking();
         }
 
-        public IQueryable<T> FindAll()
+        public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includes)
         {
-            return _ctx.Set<T>().AsNoTracking();
+            IQueryable<T> query;
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(_ctx.Set<T>().AsNoTracking(),
+                  (current, include) => current.Include(include));
+            }
+            else
+            {
+                query = _ctx.Set<T>().AsNoTracking();
+            }
+
+
+            return query;
         }
 
         public T Insert(T entity)
         {
-            entity.Updated = DateTime.UtcNow;
-
             _ctx.Set<T>().Add(entity);
 
             _ctx.SaveChanges();
@@ -50,13 +61,11 @@ namespace AddressBook.Api.Repositories
 
         public T Update(T entity)
         {
-            entity.Updated = DateTime.UtcNow;
-
             _ctx.Set<T>().Update(entity);
 
             _ctx.SaveChanges();
 
             return entity;
-        }       
+        }
     }
 }

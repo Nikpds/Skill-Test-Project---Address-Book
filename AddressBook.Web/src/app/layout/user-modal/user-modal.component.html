@@ -21,7 +21,7 @@
           <label class="label">Firstname *</label>
           <div class="control">
             <input class="input " formControlName="firstname" [ngClass]="{'error-input':formErrors.firstname}"
-              type="text" placeholder="type your lastname">
+              type="text" placeholder="type your firstname">
             <div *ngIf="formErrors.firstname" class="help is-danger">
               {{ formErrors.firstname }}
             </div>
@@ -34,6 +34,36 @@
               placeholder="type a valid email">
             <div *ngIf="formErrors.email" class="help is-danger">
               {{ formErrors.email }}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Address *</label>
+          <div class="control">
+            <input class="input" formControlName="address" [ngClass]="{'error-input':formErrors.address}" type="text"
+              placeholder="type a valid address">
+            <div *ngIf="formErrors.address" class="help is-danger">
+              {{ formErrors.address }}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Latitute *</label>
+          <div class="control">
+            <input class="input" formControlName="latitude" [ngClass]="{'error-input':formErrors.latitude}" type="text"
+              placeholder="type a valid latitude">
+            <div *ngIf="formErrors.latitude" class="help is-danger">
+              {{ formErrors.latitude }}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Longtitue *</label>
+          <div class="control">
+            <input class="input" formControlName="longtitue" [ngClass]="{'error-input':formErrors.longtitue}" type="text"
+              placeholder="type a valid longtitue">
+            <div *ngIf="formErrors.longtitue" class="help is-danger">
+              {{ formErrors.longtitue }}
             </div>
           </div>
         </div>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using AddressBook.Api.Services;
 using AddressBook.Api.Views;
 using Microsoft.AspNetCore.Mvc;
@@ -21,34 +20,36 @@ namespace AddressBook.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] AddressInfoView address)
+        public IActionResult Insert([FromBody] AddressInfoView address)
         {
             try
             {
-                var result = await _srv.AddAddressBook(address);
+                var result = _srv.AddAddressBook(address);
 
                 return Ok(result);
             }
             catch (Exception exc)
             {
-                _log.Error(exc, "Exception while inserting a user");
-                return BadRequest();
+                _log.Error(exc, "Exception while inserting an Address");
+
+                return BadRequest("Failed to add an Address");
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             try
             {
-                var result = await _srv.DeleteAddressBook(id);
+                var result = _srv.DeleteAddressBook(id);
 
                 return Ok(result);
             }
             catch (Exception exc)
             {
                 _log.Error(exc, "Exception inserting attendance for Athlete with Id {@athleteId}");
-                return BadRequest();
+                
+                return BadRequest("Error while deleting the selected Address");
             }
         }
     }

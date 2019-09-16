@@ -7,6 +7,50 @@
             <span class="is-primary button is-small is-right" (click)="umodal.open()">Add</span>
           </p>
           <hr>
+          <div class="card-container">
+            <div class="box" *ngFor="let item of contancts;let i = index">
+              <div class="box-icon"><i class="fa fa-address-book-o"></i></div>
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <div class="field">
+                      <strong>{{item.lastname}} {{item.firstname}}</strong> - <small>{{item.email}}</small>
+                    </div>
+                    <div *ngFor="let add of item.addresses;let j = index">
+                      <span [ngClass]="{'has-text-warning': add.isVisible}"><i class="fa fa-address-book"></i>&nbsp;{{add.address}}</span>
+                      <button class="button is-small is-tiny is-right" (click)="showAddressOnMap(i,j)">
+                        <i class="fa {{!add.isVisible ? 'fa-square' : 'fa-check'}}"></i></button>
+                    </div>
+
+                  </div>
+                  <nav class="level is-mobile">
+                    <div class="level-left">
+                      <div class="level-item" aria-label="retweet">
+                        <a (click)="addrmodal.open(item.id)" class="button is-small is-outlined is-primary">Add
+                          Address</a>
+                      </div>
+                      <div class="level-item" aria-label="retweet">
+                        <a (click)="confirmDeleteContanct(i)" class="button is-small is-outlined is-danger">Delete</a>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </article>
+            </div>
+            <div class="box" *ngIf="contancts.length == 0">
+              <div class="box-icon"><i class="fa fa-address-book-o"></i></div>
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <div class="field">
+                      <p>You haven't add any contacts yet !</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
         </div>
         <div class="column is-8">
           <app-map></app-map>
@@ -16,3 +60,4 @@
   </div>
 </section>
 <app-user-modal #umodal></app-user-modal>
+<app-address-modal #addrmodal></app-address-modal>

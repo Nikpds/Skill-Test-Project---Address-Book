@@ -10,27 +10,24 @@ export class NotifyService {
     this.srv.config.toast.timeout = 4000;
   }
 
-  success(message: string = 'To αίτημα σας πραγματοποιήθηκε με επιτυχία!', title: string = 'Επιτυχία') {
+  success(message: string = 'The action was successful!', title: string = 'Success') {
     this.srv.success(message, title);
   }
 
-  warning(message, title: string = 'Προσοχή') {
+  warning(message, title: string = 'Warning') {
     this.srv.warning(message, title);
   }
 
-  danger(message: string = 'To αίτημα απέτυχε.', delay = 4, title: string = 'Σφάλμα') {
+  danger(message: string = 'Action was not succussfull.', delay = 4, title: string = 'Error') {
     this.srv.error(message, title);
   }
 
-  info(message, title: string = 'Ενημέρωση') {
+  info(message, title: string = 'Info') {
     this.srv.info(message, title);
   }
 
-  simple(message, title: string = '???') {
-    this.srv.simple(message, title);
-  }
 
-  confirmation(message: string, fuc: Function, title: string = 'Επιβεβαίωση Διαγραφής', yes = 'Ναι', no = 'Οχι') {
+  confirmation(message: string, fuc: any, title: string = 'Confirmation', yes = 'Yes', no = 'No') {
     this.srv.confirm(message, title, {
       position: 'centerTop',
       timeout: 7000,

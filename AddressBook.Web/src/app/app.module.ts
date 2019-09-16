@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { LayoutModule } from './layout/layout.module';
 import { RouterModule } from '@angular/router';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
-
+import { BaseInterceptorProvider } from './base.interceptor';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
     SnotifyModule
   ],
   providers: [
+    BaseInterceptorProvider,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService,
   ],

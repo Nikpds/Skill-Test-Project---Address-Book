@@ -1,0 +1,49 @@
+<div class="modal is-active" *ngIf="address">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head has-background-primary">
+      <p class="modal-card-title has-text-white">Add Address</p>
+      <button (click)="cancel()" class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <form [formGroup]="addressForm" class="field">
+        <div class="field">
+          <label class="label">Address *</label>
+          <div class="control">
+            <input class="input" formControlName="address" [ngClass]="{'error-input':formErrors.address}" type="text"
+              placeholder="type a valid address">
+            <div *ngIf="formErrors.address" class="help is-danger">
+              {{ formErrors.address }}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Latitute *</label>
+          <div class="control">
+            <input class="input" formControlName="latitude" [ngClass]="{'error-input':formErrors.latitude}" type="text"
+              placeholder="type a valid latitude">
+            <div *ngIf="formErrors.latitude" class="help is-danger">
+              {{ formErrors.latitude }}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Longtitue *</label>
+          <div class="control">
+            <input class="input" formControlName="longtitue" [ngClass]="{'error-input':formErrors.longtitue}"
+              type="text" placeholder="type a valid longtitue">
+            <div *ngIf="formErrors.longtitue" class="help is-danger">
+              {{ formErrors.longtitue }}
+            </div>
+          </div>
+        </div>
+      </form>
+      <p>* Required fields</p>
+      <hr>
+      <div class="buttons is-right">
+        <button class="button" (click)="cancel()">Cancel</button>
+        <button class="button is-success" [disabled]="!addressForm.valid" (click)="onSubmit()">Save changes</button>
+      </div>
+    </section>
+  </div>
+</div>
